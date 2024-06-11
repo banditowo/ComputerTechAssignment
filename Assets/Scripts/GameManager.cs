@@ -8,14 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    [SerializeField] private TMP_Text HealthText;
-    [SerializeField] private TMP_Text GameOverText;
-    [SerializeField] private TMP_Text ActiveEnemiesText;
-    [SerializeField] private TMP_Text BulletsActiveText;
-
-    private int ActiveEnemies;
-    private bool _gameOver;
-
+    
     private World _world;
     private EntityManager _entityManager;
     private EntityQuery PlayerHealthQuery;
@@ -35,7 +28,6 @@ public class GameManager : MonoBehaviour
         _world = World.DefaultGameObjectInjectionWorld;
         _entityManager = _world.EntityManager;
         PlayerHealthQuery = _entityManager.CreateEntityQuery(typeof(PlayerHealth));
-        _gameOver = true;
     }
 
     void Update()
@@ -51,49 +43,13 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    private void UpdateActiveEnemiesText()
-    {
-        int enemiesActive = _entityManager.CreateEntityQuery(ComponentType.ReadOnly<Enemy>()).CalculateEntityCount();
-        ActiveEnemiesText.text = "Enemies: " + enemiesActive;
-    }
     
-    private void UpdateActiveBulletsText()
-    {
-        int bulletsActive = _entityManager.CreateEntityQuery(ComponentType.ReadOnly<Bullet>()).CalculateEntityCount();
-        BulletsActiveText.text = "Bullets Active: " + bulletsActive;
-    }
-    
-    public void UpdateHealthText()
-    {
-        if (PlayerHealthQuery.TryGetSingleton(out PlayerHealth p))
-        {
-            HealthText.text = "Health: " + p.Health;
-            _gameOver = false;
-        }
-        else if(!_gameOver){ // we cant find player health anymore + game over was true = we must be dead
-            GameOver();
-        }
-
-    }
-    
-    public void GameOver()
-    {
-        _gameOver = true;
-        HealthText.text = "Dead";
-        GameOverText.gameObject.SetActive(true);
-    }
 
     void OnGUI()
     {
         GUI.Label(new Rect(10, 10, 200, 50), "FPS: " + (1 / Time.smoothDeltaTime).ToString("f0"));
     }
 
-    private void FixedUpdate()
-    {
-        UpdateActiveEnemiesText();
-        UpdateHealthText();
-        UpdateActiveBulletsText();
-    }
 
     public void CleanAndRestartECS()
     {
