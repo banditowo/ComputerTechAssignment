@@ -12,7 +12,7 @@ R - Restart
 Q - Quit
 
 
-I did this assignment a bit backwards as I tried to get it done as fast as I could first since it was way over the due date and went straight into making it using DOTS; I then made it how I would’ve normally made it, as a different project, to then start comparing the two. The currently submitted one is the first one that was made as the optimized game using DOTS.
+I did this assignment a bit backwards as I tried to get it done as fast as I could first since it was way over the due date and went straight into making it using DOTS; I then made it how I would’ve normally made it, as a different project, to then start comparing the two.
 
 Here are some of the comparisons;
 
